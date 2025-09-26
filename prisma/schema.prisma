@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User accounts for Creators
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  
+}
+
+enum CardStatus {
+  draft
+  published
+}
+
+// Digital Card model per spec
+model Card {
+  id                String     @id @default(uuid())
+  slug              String     @unique
+  title             String
+  type              String
+  number_no         Int
+  front_image_url   String
+  back_video_url    String
+  video_duration_sec Int
+  status            CardStatus @default(draft)
+  created_by        String
+  created_at        DateTime   @default(now())
+  published_at      DateTime?
+
+  @@index([created_by])
+  @@index([status])
+  @@index([created_by, status])
+}

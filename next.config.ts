@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+	outputFileTracingRoot: __dirname,
+	experimental: {
+		outputFileTracingIgnores: [
+			"C:/Users/**/Application Data/**",
+			"C:\\Users\\**\\Application Data\\**",
+		],
+	},
 };
 
 export default nextConfig;
